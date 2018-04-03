@@ -1,0 +1,114 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '28.0.0 rc1'
+    defaultConfig {
+        minSdkVersion 22
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0.1"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+}
+
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+group = 'com.kozaris.android'
+version = '1.0.1'
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name 'k-mqtt'
+            description 'An Mqtt Android Client library'
+            url 'https://github.com/ZanKoz/kMqttLibrary'
+            inceptionYear '2017'
+
+            packaging 'aar'
+            groupId 'com.kozaris.android'
+            artifactId 'k-mqtt'
+            version '1.0.1'
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                connection 'https://github.com/ZanKoz/kMqttLibrary.git'
+                url 'https://github.com/ZanKoz/kMqttLibrary'
+            }
+            developers {
+                developer {
+                    id= 'zankoz'
+                    name 'Ioannis Kozaris'
+                }
+            }
+        }
+    }
+}
+
+Properties bintrayProperties = new Properties()
+bintrayProperties.load(project.rootProject.file('bintray.properties').newDataInputStream())
+
+bintray {
+    user = bintrayProperties.getProperty('user')
+    key = bintrayProperties.get('key')
+    configurations = ['archives'] //When uploading configuration files
+    pkg {
+        repo = 'Kozaris'
+        name = 'KMqttClient'
+        vcsUrl = 'https://github.com/ZanKoz/kMqttLibrary'
+        licenses = ['Apache-2.0']
+        publish = true
+        version {
+            name = '1'
+            desc = 'First Working Version 1.0.1 '
+            released = new Date()
+            vcsTag = 'v1.0.1'
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = bintrayProperties.get('passphrase')
+                //Optional. The passphrase for GPG signing'
+            }
+        }
+    }
+}
