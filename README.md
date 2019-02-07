@@ -1,5 +1,5 @@
 # K_Mqtt_Library
-An MQTT Android Client that treats mqtt connections  as singletons so they can be passed bettween activities. You can connect,subscribe,publish and receive messages anywhere on the android project. Independently of the activity lifecycle.
+An MQTT Android Client that treats mqtt connections as singletons so they can be passed bettween activities. You can connect,subscribe,publish and receive messages anywhere on the android project. Independently of the activity lifecycle.
 
 
 >This library uses the Eclipse Paho Android Service.As well as code from the Paho example project  
@@ -37,14 +37,14 @@ mqttConnection.getClient().setTraceCallback(new MqttClient.MqttTraceCallback());
 //Register the Activity as a Message Receiver if required (only if it receives mqtt messages)
 mqttConnection.addReceivedMessageListener(this);
 ```
-### 2. Initialize The Static Class
+### 2. Initialize the Static Class
 ```java
-//Initializes and Persistis to a database
+//Initializes and Persists to a database
 MqttClient.getInstance(this).setConnection(this,mqttConnection);
 ```
 ### 3. Connect anywhere
 ```java
-//Retrieve the Connextion Object
+//Retrieve the Connection Object
 Connection con = MqttClient.getInstance(this).getConnection();
 //connect
     if (con != null) {
@@ -61,7 +61,7 @@ Connection con = MqttClient.getInstance(this).getConnection();
 ```
 ### 4. Publish anywhere
 ```java
-//Retrieve the Connextion Object
+//Retrieve the Connection Object
 Connection con = MqttClient.getInstance(this).getConnection();
         if(con.isConnected()) {
             try {
