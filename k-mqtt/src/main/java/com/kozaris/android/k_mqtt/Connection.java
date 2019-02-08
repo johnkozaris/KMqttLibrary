@@ -396,8 +396,7 @@ public class Connection {
     }
 
     public ArrayList<Subscription> getSubscriptions(){
-        ArrayList<Subscription> subs = new ArrayList<>();
-        subs.addAll(subscriptions.values());
+        ArrayList<Subscription> subs = new ArrayList<>(subscriptions.values());
         return subs;
     }
 
