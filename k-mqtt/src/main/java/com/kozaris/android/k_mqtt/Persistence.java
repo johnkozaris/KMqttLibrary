@@ -51,7 +51,6 @@ public class Persistence extends SQLiteOpenHelper implements BaseColumns {
     private static final String COLUMN_PASSWORD = "password";
     /** Table column for clean session **/
     private static final String COLUMN_CLEAN_SESSION = "cleanSession";
-    // Table column for **/
 
     //last will
     /** Table column for last will topic **/
