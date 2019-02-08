@@ -23,19 +23,30 @@ public class Subscription {
     public String getTopic() {
         return topic;
     }
-
+    /**
+    * @return topic
+    */
     public void setTopic(String topic) {
         this.topic = topic;
     }
-
+    
+    /**
+    * @return topic
+    */
     public int getQos() {
         return qos;
     }
-
+    
+    /**
+    * @return qos
+    */
     public void setQos(int qos) {
         this.qos = qos;
     }
-
+    
+    /**
+    * @return lastMessage
+    */
     public String getLastMessage() {
         return lastMessage;
     }
