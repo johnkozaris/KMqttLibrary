@@ -116,6 +116,19 @@ public class SampleActivity extends AppCompatActivity implements Connection.IRec
 
     }
 
+    private void RemoveDeadConnection() {
+      List<Connection> DisconnectedList= MqttClient.getInstance(this).findConnectionByStatus(this, Connection.ConnectionStatus.DISCONNECTED);
+      for (Connection disconnected: DisconnectedList){
+          MqttClient.getInstance(this).removeConnection(disconnected);
+      }
+    }
+    
+    private void UnsubscribeAllConnectionsFromTopic(){
+        List<Connection> UnsubedList= MqttClient.getInstance(this).findConnectionWithSubscription(this, "TestTopic");
+        for (Connection unsubConnection: UnsubedList){
+            unsubConnection.unsubscribe();
+        }
+    }
 
     @Override
     public void onMessageReceived(ReceivedMessage message) {
