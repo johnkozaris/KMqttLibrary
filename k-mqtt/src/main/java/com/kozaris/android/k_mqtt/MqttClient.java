@@ -79,6 +79,43 @@ public class MqttClient {
         activeConnection=connection;
 
     }
+    
+    public List<Connection> findConnectionByStatus(Context context, Connection.ConnectionStatus status) {
+        try {
+            List<Connection> connectionList = persistence.restoreConnections(context);
+            List<Connection> returnList = new ArrayList<>();
+            for (Connection connection : connectionList) {
+                if (connection.getStatus().equals(status)) {
+                    returnList.add(connection);
+                }
+            }
+            return returnList;
+        } catch (Persistence.PersistenceException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Connection> findConnectionWithSubscription(Context context, String Topic) {
+        try {
+            List<Connection> connectionList = persistence.restoreConnections(context);
+            List<Connection> returnList = new ArrayList<>();
+            for (Connection connection : connectionList) {
+                List<Subscription> subsList = connection.getSubscriptions();
+                if (subsList != null) {
+                    for (Subscription subscription : subsList) {
+                        if (subscription.getTopic().equalsIgnoreCase(Topic)) {
+                            returnList.add(connection);
+                        }
+                    }
+                }
+            }
+            return returnList;
+        } catch (Persistence.PersistenceException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     private void addConnectionToDB(Connection connection){
         try {

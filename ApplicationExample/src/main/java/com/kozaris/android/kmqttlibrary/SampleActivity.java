@@ -41,30 +41,10 @@ public class SampleActivity extends AppCompatActivity implements Connection.IRec
         listviewMessages = findViewById(R.id.listviewMessages);
         messagesAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1);
         listviewMessages.setAdapter(messagesAdapter);
-        btnConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Connect();
-            }
-        });
-        btnPublish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Publish();
-            }
-        });
-        btnSubscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Subscribe();
-            }
-        });
-        btnSecondActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),SampleActivity2.class));
-            }
-        });
+        btnConnect.setOnClickListener(v -> Connect());
+        btnPublish.setOnClickListener(v -> Publish());
+        btnSubscribe.setOnClickListener(v -> Subscribe());
+        btnSecondActivity.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),SampleActivity2.class)));
     }
 
 
@@ -136,6 +116,19 @@ public class SampleActivity extends AppCompatActivity implements Connection.IRec
 
     }
 
+    private void RemoveDeadConnection() {
+      List<Connection> DisconnectedList= MqttClient.getInstance(this).findConnectionByStatus(this, Connection.ConnectionStatus.DISCONNECTED);
+      for (Connection disconnected: DisconnectedList){
+          MqttClient.getInstance(this).removeConnection(disconnected);
+      }
+    }
+    
+    private void UnsubscribeAllConnectionsFromTopic(){
+        List<Connection> UnsubedList= MqttClient.getInstance(this).findConnectionWithSubscription(this, "TestTopic");
+        for (Connection unsubConnection: UnsubedList){
+            unsubConnection.unsubscribe();
+        }
+    }
 
     @Override
     public void onMessageReceived(ReceivedMessage message) {

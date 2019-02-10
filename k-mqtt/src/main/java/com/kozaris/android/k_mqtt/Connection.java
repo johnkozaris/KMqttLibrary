@@ -266,7 +266,9 @@ public class Connection {
     public String getId() {
         return clientId;
     }
-
+    
+    public ConnectionStatus getStatus(){return status;}
+    
     /**
      * Get the host name of the server that this connection object is associated with
      * @return the host name of the server this connection object is associated with
@@ -396,8 +398,7 @@ public class Connection {
     }
 
     public ArrayList<Subscription> getSubscriptions(){
-        ArrayList<Subscription> subs = new ArrayList<>();
-        subs.addAll(subscriptions.values());
+        ArrayList<Subscription> subs = new ArrayList<>(subscriptions.values());
         return subs;
     }
 
