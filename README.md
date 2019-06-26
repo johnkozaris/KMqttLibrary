@@ -1,5 +1,5 @@
 # K_Mqtt_Library
-An MQTT Android Client that treats mqtt connections as singletons so they can be passed bettween activities. You can connect,subscribe,publish and receive messages anywhere on the android project. Independently of the activity lifecycle.
+An MQTT Android Client that treats mqtt connections as singletons so they can be passed bettween activities. You can connect, subscribe, publish and receive messages anywhere on the android project. Independently of the activity lifecycle.
 
 
 >This library uses the Eclipse Paho Android Service.As well as code from the Paho example project  
